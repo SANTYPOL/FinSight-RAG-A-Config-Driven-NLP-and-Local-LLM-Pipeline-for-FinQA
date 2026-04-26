@@ -13,23 +13,48 @@ The implementation is fully local for generation and RAG. Only the NSE download 
 
 ```text
 .
-├── config.yaml
-├── api.py
-├── main.py
-├── requirements.txt
-├── README.md
-├── fintech_pipeline/
-│   ├── downloader.py
-│   ├── extractor.py
-│   ├── ollama_client.py
-│   ├── qa_generator.py
-│   ├── rag.py
-│   └── utils.py
-├── data_downloader/
-│   └── symbols/
-│       └── energy.txt
-├── generator/        # legacy prototype, not required for the new pipeline
-└── RAG/              # legacy prototype, not required for the new pipeline
+.
+├── .gitignore                          # Git ignore rules (artifacts, venv, cache)
+├── api.py                              # FastAPI app with all pipeline endpoints + chat UI
+├── config.yaml                         # Master config: paths, Ollama models, NSE settings
+├── main.py                             # CLI entry point (--step download/generate/ask/all)
+├── requirements.txt                    # Python dependencies
+├── README.md                           # Project documentation
+│
+├── data_downloader/                    # NSE report acquisition module
+│   ├── nse_annual_downloader.py        # Scrapes NSE filings page and downloads PDFs
+│   └── symbols/                        # Sector-wise NSE symbol lists (one symbol per line)
+│       ├── bpcl.txt                    # Single-company focus (BPCL)
+│       ├── energy.txt                  # Energy sector symbols
+│       ├── auto.txt                    # Automobile sector symbols
+│       ├── finance.txt                 # Finance sector symbols
+│       ├── fmcg.txt                    # FMCG sector symbols
+│       ├── healthcare.txt              # Healthcare sector symbols
+│       ├── infra.txt                   # Infrastructure sector symbols
+│       ├── it.txt                      # IT sector symbols
+│       └── telecom.txt                 # Telecom sector symbols
+│
+├── fintech_pipeline/                   # Core NLP + LLM + RAG pipeline modules
+│   ├── __init__.py                     # Package initializer
+│   ├── constants.py                    # Shared constants and finance-domain keyword lists
+│   ├── utils.py                        # File I/O, logging, and general helper functions
+│   ├── preprocessing.py                # Text normalization and token-length utilities
+│   ├── downloader.py                   # PDF download orchestration and file management
+│   ├── extractor.py                    # PDF text extraction and section-aware chunking
+│   ├── nlp_analysis.py                 # Phase 1 NLP: NER, keywords, keyphrases, metadata
+│   ├── analysis_exporter.py            # Exports NLP analytics to JSON/CSV artifact files
+│   ├── report_analytics.py             # Report-level aggregation and summary generation
+│   ├── qa_generator.py                 # Finance QA pair generation, validation, dedup (22 KB)
+│   ├── ollama_client.py                # Ollama API wrapper for generation and embeddings
+│   ├── rag.py                          # FAISS index build, semantic retrieval, RAG inference
+│   ├── metrics.py                      # EM, Token F1, and Hit@k metric computation helpers
+│   ├── evaluation.py                   # End-to-end evaluation runner over QA sample set
+│   └── plotter.py                      # Matplotlib plots: coverage, keywords, QA distribution
+│
+└── ui/                                 # GPT-style chat demo frontend (served by FastAPI)
+    ├── index.html                      # Chat UI layout and structure
+    ├── styles.css                      # UI styling
+    └── app.js                          # Frontend logic — calls /ask endpoint, renders sources
 ```
 
 ## Prerequisites
