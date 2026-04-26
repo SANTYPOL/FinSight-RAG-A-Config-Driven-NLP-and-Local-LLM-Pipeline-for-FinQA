@@ -19,4 +19,5 @@ Thumbs.db
 # Ollama / model weights
 *.bin
 *.gguf
-*.ggml
+*.ggmlevaluation_plots_v01.ipynb
+CAPSTONE_REPORT_V04.md
