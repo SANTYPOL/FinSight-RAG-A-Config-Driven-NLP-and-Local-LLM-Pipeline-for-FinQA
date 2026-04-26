@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSE Finance QA Chat</title>
+  <link rel="stylesheet" href="/ui/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">NSE</div>
+        <div>
+          <h1>Finance QA Chat</h1>
+          <p>Local RAG assistant powered by Ollama</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>How To Use</h2>
+        <ol>
+          <li>Build the RAG index first.</li>
+          <li>Type a finance question in the chat box.</li>
+          <li>Review the answer and retrieved sources.</li>
+        </ol>
+      </div>
+
+      <div class="panel">
+        <h2>Try Questions</h2>
+        <button class="preset" data-question="What was the standalone Profit After Tax of BPCL in 2021-22?">BPCL PAT in 2021-22</button>
+        <button class="preset" data-question="What are BPCL's renewable energy targets?">Renewable targets</button>
+        <button class="preset" data-question="Who was the Chairman and Managing Director of BPCL?">Chairman and MD</button>
+        <button class="preset" data-question="What major capex plans are mentioned for BPCL?">Capex plans</button>
+      </div>
+
+      <div class="panel history-panel">
+        <div class="panel-head">
+          <h2>Chat History</h2>
+          <button id="clear-history" class="ghost-button" type="button">Clear</button>
+        </div>
+        <div id="history-list" class="history-list"></div>
+      </div>
+    </aside>
+
+    <main class="chat-panel">
+      <header class="chat-header">
+        <div>
+          <p class="eyebrow">Teacher Demo Interface</p>
+          <h2>Ask Your Finance Questions</h2>
+        </div>
+        <div class="header-actions">
+          <label class="filter">
+            <span>Company</span>
+            <select id="company-filter">
+              <option value="">Any</option>
+              <option value="BPCL">BPCL</option>
+              <option value="RELIANCE">RELIANCE</option>
+              <option value="ONGC">ONGC</option>
+            </select>
+          </label>
+          <label class="filter">
+            <span>Year</span>
+            <select id="year-filter">
+              <option value="">Any</option>
+              <option value="2021-22">2021-22</option>
+              <option value="2022-23">2022-23</option>
+              <option value="2023-24">2023-24</option>
+              <option value="2024-25">2024-25</option>
+            </select>
+          </label>
+          <a class="docs-link" href="/docs" target="_blank" rel="noreferrer">Open Swagger</a>
+        </div>
+      </header>
+
+      <section id="messages" class="messages">
+        <article class="message assistant">
+          <div class="bubble">
+            <p>Ask a finance question about the indexed annual reports. I will answer from the RAG dataset and show the supporting sources.</p>
+          </div>
+        </article>
+      </section>
+
+      <div id="typing-indicator" class="typing-indicator hidden">
+        <span></span><span></span><span></span>
+        <p>Searching the finance dataset...</p>
+      </div>
+
+      <section id="sources" class="sources hidden">
+        <div class="sources-header">
+          <h3>Retrieved Sources</h3>
+          <span id="source-count"></span>
+        </div>
+        <div id="source-list" class="source-list"></div>
+      </section>
+
+      <form id="chat-form" class="composer">
+        <textarea id="question-input" name="question" rows="3" placeholder="Ask something like: What was the standalone Profit After Tax of BPCL in 2021-22?" required></textarea>
+        <div class="composer-actions">
+          <span id="status" class="status">Ready</span>
+          <div class="composer-buttons">
+            <button id="copy-last-answer" class="secondary-button" type="button">Copy Last Answer</button>
+            <button id="send-button" type="submit">Send</button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script src="/ui/app.js"></script>
+</body>
+</html>

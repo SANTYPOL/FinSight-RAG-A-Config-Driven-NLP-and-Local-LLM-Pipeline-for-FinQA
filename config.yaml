@@ -1,0 +1,36 @@
+paths:
+  symbols_file: "./data_downloader/symbols/bpcl.txt"
+  download_dir: "./artifacts/downloads"
+  cache_dir: "./artifacts/cache"
+  dataset_dir: "./artifacts/datasets"
+  rag_dir: "./artifacts/rag"
+  analysis_dir: "./artifacts/analysis"
+  metrics_dir: "./artifacts/metrics"
+
+dataset:
+  name: "nse_finance_qa"
+
+nse:
+  sleep_seconds: 1.0
+  max_reports_per_symbol: 5
+
+ollama:
+  base_url: "http://localhost:11434"
+  generation_model: "qwen2.5:14b"
+  embedding_model: "nomic-embed-text"
+  chat_model: "llama3.1"
+  timeout: 180
+
+generation:
+  temperature: 0.2
+  max_chunks_per_pdf: null
+  start_chunk: 0
+  end_chunk: null
+  extraction:
+    chunk_tokens: 700
+    overlap_tokens: 120
+    min_chunk_tokens: 80
+
+rag:
+  top_k: 5
+  temperature: 0.0
